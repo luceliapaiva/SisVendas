@@ -1,0 +1,44 @@
+<div *ngIf="status" class="alert alert-success text-center" role="alert">
+    {{status}}
+  </div>
+<div class="card">
+    <div class="card-header">
+        Formulário de Cliente
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <div class="row">
+                <div *ngIf="model.id" class="col-2 mb-3">
+                    <!--Bananas-In-Box [(ngModel)]-->
+                    <label for="Input-id" class="form-label">Id</label>
+                    <input type="text" class="form-control" id="Input-id"disabled [(ngModel)]="model.id">
+                  </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label for="Input-nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="Input-nome"[(ngModel)]="model.nome">
+                  </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="Input-telefone" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="Input-telefone"[(ngModel)]="model.telefone">
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label for="Input-endereco" class="form-label">Endereço</label>
+                    <input type="text" class="form-control" id="Input-endereco"[(ngModel)]="model.endereco">
+                  </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="button" class="btn btn-success mr-2" (click)="salvar()">Salvar</button>
+                    <a type="button" class="btn btn-danger" [routerLink]="['/clientes']">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

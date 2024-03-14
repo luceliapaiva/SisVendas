@@ -1,0 +1,32 @@
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+    <div class="custom-menu">
+      <button type="button" id="sidebarCollapse" class="btn btn-primary">
+      </button>
+    </div>
+    <div class="logo img bg-wrap text-center py-4">
+    </div>
+    <ul class="list-unstyled components mb-5">
+      <li class="active">
+        <a [routerLink]="['/']"><span class="fa fa-home mr-3"></span>Dashboard</a>
+      </li>
+      <li>
+        <a [routerLink]="['/clientes']"><span class="fa fa-gift mr-3"></span>Clientes</a>
+      </li>
+      <li>
+        <a [routerLink]="['/produtos']"><span class="fa fa-trophy mr-3"></span>Produtos</a>
+      </li>
+      <li>
+        <a [routerLink]="['/pedidos']"><span class="fa fa-cog mr-3"></span>Pedidos</a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <!-- Navbar content -->
+  </nav>
+
+  <div id="content" class="p-4 p-md-5 pt-5">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,174 @@
+<div *ngIf="status" class="alert alert-success text-center" role="alert">
+    {{status}}
+  </div>
+  <div class="card">
+    <div class="card-header">
+        Formulário de Pedido
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <div class="row mb-3 justify-content-end">
+                <div *ngIf="model.id" class="col-2">
+                    <label for="input-id" class="form-label">Código</label>
+                    <input type="text" class="form-control" id="input-id" disabled [value]="model.id">
+                </div>
+                <div class="col-7"></div>
+                <div class="col-3">
+                    <label for="input-dataemissao" class="form-label">Data Emissão</label>
+                    <input type="date" class="form-control" id="input-dataemissao" [value]="model.dataEmissao | date:'yyyy-MM-dd'" disabled>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-2">
+                    <label for="input-clientecod" class="form-label">Cliente Cód.</label>
+                    <input type="text" class="form-control" id="input-clientecod" [value]="model.cliente?.id" readonly>
+                </div>
+                <div class="col-1 align-self-end">
+                    <button class="btn btn-primary" click="listarClientes(htmlModalCliente)">...</button>
+                </div>
+                <div class="col-9 align-self-end">
+                    <label for="input-clientenome" class="form-label">Cliente Nome</label>
+                    <input type="text" class="form-control" id="input-clientenome" [value]="model.cliente?.nome" readonly>
+                </div>
+            </div>
+            <div class="accordion mb-3" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Itens do Pedido
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            <label for="input-produtocod" class="form-label">Produto Cód.</label>
+                            <input type="text" class="form-control" id="input-produtocod" readonly[value]="produtoSelecionado?.id">
+                        </div>
+                        <div class="col-1 align-self-end">
+                            <button class="btn btn-primary" (click="listarProdutos(htmlModalProduto)")>...</button>
+                        </div>
+                        <div class="col-6 align-self-end">
+                            <label for="input-produtodescricao" class="form-label">Produto Descrição</label>
+                            <input type="number" class="form-control" id="input-produtodescricao" readonly [value]="produtoSelecionado?.descricao">
+                        </div>
+                        <div class="col-2 align-self-end">
+                            <label for="input-quantidade" class="form-label">Quantidade</label>
+                            <input type="text" class="form-control" id="Quantidade" [(ngModel)]="quantidade">
+                        </div>
+                        <div class="col-1 align-self-end align-middle">
+                            <button class="btn btn-success" (click)="incluirProduto">+</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col" class="col-2">Produto Cód</th>
+                                <th scope="col" class="col-8">Descrição</th>
+                                <th scope="col" class="col-1">Quantidade</th>
+                                <th scope="col" class="col-1 text-center">Ações</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let pedidoProduto of model.pedidoProdutos">
+                                <th scope="row" class="align-middle">{{pedidoProduto.produto?.id}}</th>
+                                <td class="align-middle">{{pedidoProduto.produto?.descricao}}</td>
+                                <td class="align-middle">{{pedidoProduto.quantidade}}</td>
+                                <td class="align-middle text-center">
+                                    <button class="btn btn-danger" (click)="excluirProduto(pedidoProduto)">-</button> 
+                                </td>
+                              </tr>
+                          </table>
+                    </div>
+                  </div>
+              </div>
+        </div>
+        <div class="row mb-3 justify-content-end">
+            <div class="col-3">
+                 <label for="input-totalpedido" class="form-label">Total Pedido</label>
+                <input type="number" step="0.01" class="form-control" id="input-totalpedido" [value]="model.totalPedido" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                <button type="button" class="btn btn-success mr-2" (click)="salvar()">Salvar</button>
+                <a type="button" class="btn btn-danger" [routerLink]="['/pedidos']">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal Cliente-->
+<ng-template #htmlModalCliente let-modalCliente>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Selecione um Cliente</h4>
+		<button #btnClienteFechar type="button" class="btn-close" aria-label="Close" (click)="modalCliente.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="col=1">Código</th>
+                <th scope="col" class="col=3">Nome</th>
+                <th scope="col" class="col=2">Telefone</th>
+                <th scope="col" class="col=4">Endereço</th>
+                <th scope="col" class="col=2 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of listaClientes">
+                <th scope="row">{{cliente.id}}</th>
+                <td>{{cliente.nome}}</td>
+                <td>{{cliente.telefone}}</td>
+                <td>{{cliente.endereco}}</td>
+                <td class="text-center align-middle">
+                    <button type="button" class="btn btn-primary"(click)="selecionarCliente(cliente, btnClienteFechar)">Selecionar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+	</div>
+	
+</ng-template>
+
+<!--Modal Produto-->
+<ng-template #htmlModalProduto let-modalProduto>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Selecione um Produto</h4>
+		<button #btnProdutoFechar type="button" class="btn-close" aria-label="Close" (click)="modalProduto.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="col=1">Código</th>
+                <th scope="col" class="col=4">Descrição</th>
+                <th scope="col" class="col=2 text center">Unidade</th>
+                <th scope="col" class="col=2">Preço</th>
+                <th scope="col" class="col=2 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let produto of listaProdutos">
+                <th scope="row">{{produto.id}}</th>
+                <td>{{produto.descricao}}</td>
+                <td class="text-center">{{produto.unidade}}</td>
+                <td>{{produto.preco | currency: 'BRL'}}/td>
+                <td class="text-center align-middle">
+                    <button type="button" class="btn btn-primary" (click)="selecionarProduto(produto, btnProdutoFechar)">Selecionar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+	</div>
+	
+</ng-template>
+
+
+
+
+
+

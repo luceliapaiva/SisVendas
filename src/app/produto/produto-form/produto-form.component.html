@@ -1,0 +1,45 @@
+<div *ngIf="status" class="alert alert-success text-center" role="alert">
+    {{status}}
+  </div>
+<div class="card">
+    <div class="card-header">
+        Formulário de Produto
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <div class="row">
+                <div *ngIf="model.id" class="col-2 mb-3">
+                    <label for="Input-id" class="form-label">Id</label>
+                    <input type="text" class="form-control" id="Input-id"disabled [value]="model.id">
+                  </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label for="Input-descricao" class="form-label">Descricao</label>
+                    <input type="text" class="form-control" id="Input-descricao" [(ngModel)]="model.descricao">
+                  </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <label for="select-unidade" class="form-label">Unidade</label>
+                    <select class="form-select" id="select-unidade" [(ngModel)]="model.unidade">
+                        <option value="UN">UN</option>
+                        <option value="CX">CX</option>
+                        <option value="PCT">PCT</option>
+                      </select>
+                  </div>
+                  <div class="col-3">
+                    <label for="Input-preco" class="form-label">Preço</label>
+                    <input type="number" step="0.01" class="form-control" id="Input-preco" [(ngModel)]="model.preco">
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="button" class="btn btn-success mr-2" (click)="salvar()">Salvar</button>
+                    <a type="button" class="btn btn-danger" [routerLink]="['/produtos']">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
